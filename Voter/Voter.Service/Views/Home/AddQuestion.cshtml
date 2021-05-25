@@ -1,0 +1,26 @@
+﻿@model Voter.Dto.Models.AddQuestionModel
+
+@{
+    ViewBag.Title = "Add Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddQuestion", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Add Question to #@Model.PollId</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.TextBoxFor(m => Model.Text)
+        <br>
+        @Html.DropDownListFor(x => x.Type, new List<SelectListItem>() 
+        { 
+            new SelectListItem("Radiobox", "Radiobox"),
+            new SelectListItem("Checkbox", "Checkbox")
+        })
+        <br>
+        <input class="btn btn-primary text-white" type="submit" asp-controller="Home" asp-action="AddQuestion" asp-route-id="@Model.PollId" value="Save" />
+    </fieldset>
+}  

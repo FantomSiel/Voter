@@ -1,0 +1,80 @@
+﻿@model Voter.Dto.Models.MainPageModel
+
+@{
+    ViewBag.Title = "Main";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Main", "Home", FormMethod.Get))
+{
+    <fieldset>
+        <legend>Questionnaires</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (@ViewBag.Message != null)
+        {
+            <div style="border: 1px solid red">
+                Page is @Model.Page
+            </div>
+        }
+    <table>
+        <tr>
+            <td style="width:100px">Name</td>
+            <td style="width:100px">Description</td>
+            <td style="width:100px">CreatedBy</td>
+        </tr>
+        @foreach (var item in Model.Polls)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CreatedBy)
+                </td>
+       
+                @if (Model.IsOwn)
+                {
+                    <td>
+                        <a class="btn btn-primary text-white" asp-controller="Home" asp-action="Edit" asp-route-id="@item.PollId">
+                            Edit
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger text-white" asp-page="/Login" asp-route-Id="@item.PollId">
+                            Delete
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary text-white" asp-controller="Home" asp-action="Stats" asp-route-Id="@item.PollId">
+                            View Statistics
+                        </a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a class="btn btn-primary text-white" asp-controller="Home" asp-action="Take" asp-route-id="@item.PollId">
+                            -->
+                        </a>
+                    </td>
+                }
+            </tr>
+
+        }
+    </table>
+        @if (Model.IsOwn)
+        {
+             <br />
+             <a class="btn btn-primary text-white" asp-controller="Home" asp-action="AddPoll">
+                        Add new poll
+             </a>
+            
+        }
+        
+    </fieldset>
+}  

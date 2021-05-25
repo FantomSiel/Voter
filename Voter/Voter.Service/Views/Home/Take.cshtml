@@ -1,0 +1,54 @@
+﻿@model Voter.Dto.Models.TakePollModel
+
+@{
+    ViewBag.Title = "Take Poll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Take", "Home", FormMethod.Post))
+{
+<fieldset>
+    <legend>Take Poll</legend>
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Model.Name
+    <div style="height:10px"> </div>
+    @Model.Description
+    <div style="height:10px"> </div>
+
+    <table>
+        @for (int i = 0; i < Model.Questions.Count(); ++i)
+        {
+        <tr>
+            <td>
+                @Model.Questions[i].Text
+            </td>
+            <td>
+                @for (int j = 0; j < Model.Questions[i].Variants.Count(); ++j)
+                {
+                    if (Model.Questions[i].Type == "Radiobox")
+                    {
+                        <input type="radio" asp-for="@Model.Questions[i].SingleVariantId" value="@Model.Questions[i].Variants[j].VariantId" />@Model.Questions[i].Variants[j].Text<br />
+                        <input type="hidden" asp-for="@Model.Questions[i].Variants[j].VariantId" />
+                        <input type="hidden" asp-for="@Model.Questions[i].QuestionId" />
+                        <input type="hidden" asp-for="@Model.Questions[i].Type" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" asp-for="@Model.Questions[i].Variants[j].IsSelected" />@Model.Questions[i].Variants[j].Text<br />
+                        <input type="hidden" asp-for="@Model.Questions[i].Variants[j].VariantId" />
+                        <input type="hidden" asp-for="@Model.Questions[i].QuestionId" />
+                        <input type="hidden" asp-for="@Model.Questions[i].Type" />
+                    }
+                    <div style="height:5px"> </div>
+                }
+            </td>
+        </tr>
+        }
+    </table>
+    <br/>
+    <input class="btn btn-primary text-white" type="submit" value="Submit" />
+</fieldset>
+}  

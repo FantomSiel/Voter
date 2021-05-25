@@ -1,0 +1,44 @@
+﻿@model Voter.Dto.Responses.Poll.GetStatsResponse
+
+@{
+    ViewBag.Title = "Stats";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Stats", "Home", FormMethod.Get))
+{
+<fieldset>
+    <legend>Survey Statistics</legend>
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Model.Name
+    <div style="height:10px"> </div>
+    <table>
+        @foreach (var item in Model.Questions)
+        {
+            <tr>
+                <td>
+                    @item.Text
+                </td>
+                <td>
+                    <table>
+                        @foreach (var i in item.Variants)
+                        {
+                            <tr>
+                                <td style="width:150px">
+                                    @i.Text
+                                </td>
+                                <td style="width:100px">
+                                    @i.Percentage %
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+        }
+    </table>
+</fieldset>
+}  

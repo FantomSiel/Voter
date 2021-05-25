@@ -1,0 +1,36 @@
+﻿@model Voter.Dto.Models.UserProfile
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Sign In/Sign Up</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+    <table>
+        <tr>
+            <td>@Html.LabelFor(a => a.Login)</td>
+            <td>@Html.TextBoxFor(a => a.Login)</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(a => a.Password)
+            </td>
+            <td>
+                @Html.PasswordFor(a => a.Password)
+            </td>
+        </tr>
+    </table>
+    <br />
+    <input class="btn btn-primary text-white" type="submit" value="Login" />
+    <a class="btn btn-primary text-white" asp-controller="Home" asp-action="Register">Register</a>
+
+        
+    </fieldset>
+}  

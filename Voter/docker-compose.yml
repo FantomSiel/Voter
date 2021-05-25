@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  storage-vote:
+    container_name: vote-db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: votedb
+      MYSQL_ROOT_PASSWORD: pass
+    ports:
+      - '3307:3306'
+    volumes:
+      - vote-db:/var/lib/mysql
+
+volumes:
+  vote-db:

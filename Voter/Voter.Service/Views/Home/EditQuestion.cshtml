@@ -1,0 +1,53 @@
+﻿@model Voter.Dto.Models.EditQuestionModel
+
+@{
+    ViewBag.Title = "Edit Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("EditQuestion", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Edit Question</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.TextBoxFor(m => Model.Text)
+        <div style="height:10px"> </div>
+        <input class="btn btn-primary text-white" type="submit" asp-controller="Home" asp-action="EditQuestion" asp-route-id="@Model.QuestionId" value="Save" />
+        <div style="height:10px"> </div>
+
+        <table>
+            @for (int i = 0; i < Model.Variants.Count(); ++i)
+            {
+                <tr>
+                    <td>
+                        @Html.TextBoxFor(m => Model.Variants[i].Text)
+                    </td>
+                    <td>
+                        <input class="btn btn-primary text-white" type="submit"
+                               asp-controller="Home" asp-action="EditQuestion"
+                               asp-route-id="@Model.QuestionId"
+                               asp-all-route-data='new Dictionary<string,string> { { "variantId", Model.Variants[i].VariantId }, { "index", i.ToString() } }'
+                               value="Save" />
+                    </td>
+                    <td>
+                        <input class="btn btn-danger text-white" type="submit"
+                               asp-controller="Home" asp-action="DeleteVariant"
+                               asp-route-id="@Model.QuestionId"
+                               asp-all-route-data='new Dictionary<string,string> { { "variantId", Model.Variants[i].VariantId }, { "id", Model.QuestionId } }'
+                               value="Delete">
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <input class="btn btn-primary text-white" type="submit"
+               asp-controller="Home" asp-action="AddVariant"
+               asp-route-id="@Model.QuestionId"
+               value="+">
+
+
+    </fieldset>
+}  

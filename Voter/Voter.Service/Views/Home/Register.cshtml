@@ -1,0 +1,52 @@
+﻿@model Voter.Dto.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Register", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Registration form</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+    <table>
+        <tr>
+            <td>@Html.LabelFor(a => a.Name)</td>
+            <td>@Html.TextBoxFor(a => a.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(a => a.Age)</td>
+            <td>@Html.EditorFor(a => a.Age)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(a => a.Login)</td>
+            <td>@Html.TextBoxFor(a => a.Login)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(a => a.Password)</td>
+            <td>@Html.PasswordFor(a => a.Password)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(a => a.Country)</td>
+            <td>@Html.TextBoxFor(a => a.Country)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(a => a.Sex)</td>
+            <td>
+                @Html.DropDownListFor(x => x.Sex, new List<SelectListItem>()
+                {
+                    new SelectListItem("Male", "Male"),
+                    new SelectListItem("Female", "Female")
+                })
+            </td>
+        </tr>
+    </table>
+    <br />
+    <input class="btn btn-primary text-white" type="submit" value="Register" />
+         
+    </fieldset>
+}  

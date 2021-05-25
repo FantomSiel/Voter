@@ -1,0 +1,23 @@
+﻿@model Voter.Dto.Models.AddPollModel
+
+@{
+    ViewBag.Title = "Add poll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddPoll", "Home", FormMethod.Post))
+{
+<fieldset>
+    <legend>Add Poll</legend>
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    
+    @Html.TextBoxFor(m => Model.Name, new { style = "width:20em;" })
+    <div style="height:10px"> </div>
+    @Html.TextBoxFor(m => Model.Description, new { style = "width:20em;" })    
+    <div style="height:10px"> </div>  
+    <input class="btn btn-primary text-white" type="submit" asp-controller="Home" asp-action="AddPoll" value="Save" />   
+</fieldset>
+}  

@@ -1,0 +1,52 @@
+﻿@model Voter.Dto.Models.EditModel
+
+@{
+    ViewBag.Title = "Edit Poll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Edit Poll</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.TextBoxFor(a => a.Name)
+        <div style="height:10px"> </div>
+        @Html.TextAreaFor(a => a.Description)
+        <div style="height:10px"> </div>
+        <input class="btn btn-primary text-white" type="submit" asp-controller="Home" asp-action="Edit" asp-route-id="@Model.PollId" value="Save" />
+        <div style="height:10px"> </div>
+
+        <table>
+            <tr>
+                <td>Text</td>
+                <td>Variants</td>
+            </tr>
+
+            @for (int i = 0; i < Model.Questions.Count(); ++i)
+            {
+                <tr>
+                    <td>
+                        @Model.Questions[i].Text
+                        <br>
+                        @Html.DisplayFor(m => Model.Questions[i].Type)
+
+
+                    </td>
+                    <td>
+                        <a class="btn btn-primary text-white" asp-controller="Home" asp-action="EditQuestion" asp-route-id="@Model.Questions[i].QuestionId">Edit</a>
+                        <input class="btn btn-danger text-white" type="submit" asp-controller="Home" asp-action="DeleteQuestion" asp-route-id="@Model.PollId"
+                               asp-all-route-data='new Dictionary<string,string> { { "id", Model.PollId }, {"questionId", Model.Questions[i].QuestionId } }'
+                               value="Delete">
+                    </td>
+                </tr>
+            }
+        </table>
+        <br/>
+        <a class="btn btn-primary text-white" asp-controller="Home" asp-action="AddQuestion" asp-route-id="@Model.PollId">Add</a>
+
+    </fieldset>
+}  
